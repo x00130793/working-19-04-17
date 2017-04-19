@@ -1,0 +1,67 @@
+@(customer: models.users.Customer, user: models.users.User, categories: List[models.Category], catId: Long, ord: List[models.shopping.ShopOrder], filter: String)
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+@main("Customer order history", user, categories, catId, filter)  {
+
+
+	<div class="container">
+		<div class="row">
+			<div class="col-sm-9 padding-right">
+				<h2 class="title text-center">Order history</h2>
+				<div id="accordian">
+					<div class="list-group">
+						<!--List-->
+							 <div class="col-sm-12">
+
+            @if(flash.containsKey("success")) {
+                <div class="alert alert-success">
+                @flash.get("success")
+                </div>
+            }
+			<table class="table table-bordered table-hover table-condensed">
+				<thead>
+					<!-- The header row-->
+					<tr>
+						<th>Order date</th>
+						<th>Total Cost</th>
+						<th>Order status</th>
+						<th></th>
+					</tr>
+         	 </thead>
+			<tbody>
+                @for(o <- ord) {
+			
+								<tr>	
+								
+									<td>@o.getOrderDate</td>
+									<td>€@o.getOrderTotal</td>
+									<td>@o.getStatus()</td>
+									@if(o.getStatus() != "delivered"){
+									<td>
+										<a href="@routes.CustomerCtrl.cancelOrder(catId, filter, o.getId)" class="btn-xs btn-danger"
+											onclick="return confirmDel();">
+											<span class="glyphicon glyphicon-trash"></span>
+										</a>
+									</td>
+									}	
+									</td>
+									</a>
+								</tr>
+                }
+
+			</tbody>
+            </div>
+			</table>
+
+					<!--end list-->
+					</div>
+				</div>
+				<div>
+				</div>
+			</div>
+
+
+}
+

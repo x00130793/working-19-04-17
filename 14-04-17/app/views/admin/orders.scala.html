@@ -1,0 +1,77 @@
+@import models.Category
+@import models.Product
+@import models.users.User
+
+@(env: play.api.Environment, products: List[Product], user: User, order: List[models.shopping.ShopOrder])
+
+<!-- Pass page title and content {html between braces} to the main view -->
+@admin.adminMain("Orders", user) {
+  <!-- HTML content for the index view -->
+  <div class="row">
+      <div class="container">
+		<div class="row">
+			<div class="col-sm-9 padding-right">
+				<h2 class="title text-center">Order history</h2>
+				<div id="accordian">
+					<div class="list-group">
+						<!--List-->
+							 <div class="col-sm-12">
+
+            @if(flash.containsKey("success")) {
+                <div class="alert alert-success">
+                @flash.get("success")
+                </div>
+            }
+			<table class="table table-bordered table-hover table-condensed">
+				<thead>
+					<!-- The header row-->
+					<tr>
+						<th>Order date</th>
+						<th>Total Cost</th>
+						<th>Order status</th>
+					</tr>
+         	 </thead>
+			<tbody>
+                @for(o <- order) {
+								<tr>	
+								
+									<td>@o.getOrderDate</td>
+									<td>€@o.getOrderTotal</td>
+									<td>@o.getStatus()<td>
+									<td>
+										<a href="@routes.AdminController.cancelOrder(o.getId)" class="btn-xs btn-danger"
+											onclick="return confirmDel();">
+											<span class="glyphicon glyphicon-trash"></span>
+										</a>	
+									</td>
+									
+									@if(o.getStatus() != "delivered"){
+									<td>
+										<a href="@routes.AdminController.updateStatus(o.getId)" class="btn-xs btn-danger">
+                      					<span class="glyphicon glyphicon-pencil"></span></a>
+										</a>
+									</td>
+									}
+								</tr>
+                }
+
+			</tbody>
+            </div>
+			</table>
+
+					<!--end list-->
+					</div>
+				</div>
+				<div>
+				</div>
+			</div>
+  <script>
+    // JavaScript function returns true if user clicks yes, otherwise, false
+    function confirmDel() {
+        return confirm('Are you sure?');
+    }
+  </script>
+
+  <!-- End of content for main -->
+}
+

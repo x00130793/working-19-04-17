@@ -1,0 +1,27 @@
+@(customer: models.users.Customer, user: models.users.User, categories: List[models.Category], catId: Long, filter: String)
+
+
+@main("Profile", user, categories, catId, filter)  {
+
+
+		<div class="container">
+			<div class="row">
+				<div class="col-sm-9 padding-right">
+					<h2 class="title text-center">Profile</h2>
+					<div id="accordian">
+							<div class="list-group">
+
+								<h4 class="panel-title">
+									<a href="@routes.CustomerCtrl.orderHistory(catId, filter)" class="list-group-item">Order history</a>
+									<a href="@routes.CustomerCtrl.profileEdit(catId, filter)" class="list-group-item">Edit profile</a>
+								</h4>
+
+							</div>
+					</div>
+				<div>
+			</div>
+		</div>
+
+
+}
+

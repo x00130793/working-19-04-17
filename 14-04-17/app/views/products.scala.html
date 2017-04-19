@@ -1,0 +1,59 @@
+@import models.Category
+@import models.Product
+@import models.users.User
+
+@(env: play.api.Environment, categories: List[Category], products: List[Product], catId: Long, filter: String, user: User)
+
+<!-- Pass page title and content {html between braces} to the main view -->
+@main("Products", user, categories, catId: Long, filter: String) {
+    <!-- HTML content for the index view -->
+    <div class="row">
+
+        <div class="col-sm-12">
+
+            @if(flash.containsKey("success")) {
+                <div class="alert alert-success">
+                @flash.get("success")
+                </div>
+            }
+            <div class="features_items"><!--features_items-->
+                <h2 class="title text-center">Products</h2>
+                @for(p <- products) {
+                    <div  class="col-sm-4">
+                        <div  class="product-image-wrapper">
+                            <div class="single-products">
+                                <div class="productinfo text-center">
+                                    @if(env.resource("public/images/productImages/thumbnails/" + p.getId + ".jpg").isDefined) {
+                                        <img src="/assets/images/productImages/@(p.getId).jpg"/>
+                                    } else {
+                                        <img src="/assets/images/productImages/thumbnails/noImage.png"/>
+                                    }
+
+                                <h2>&euro; @("%.2f".format(p.getPrice))</h2>
+                                <h3>@p.getName</h3>
+                               
+                              
+                                </div>
+                                <div class="product-overlay">
+                                    <div class="overlay-content">
+                                        <h2>&euro; @("%.2f".format(p.getPrice))</h2>
+                                        <a   href="@routes.HomeController.productDetails(catId, filter, p.getId)" <p> @p.getDescription</p> </a>
+                                       
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="choose">
+								<ul class="nav nav-pills nav-justified">
+                                    <li><a href="@routes.HomeController.like(catId, filter, p.getId, "index")"><b><i class="glyphicon glyphicon-thumbs-up"></i>Like @p.getPlike().getLikeCount() </a></b></li>
+                                    <li><a href="#"><b><i class="fa fa-plus-square"></i>Add to wishlist</a></b></li>  
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                }
+
+            </div>
+        </div>
+    </div>
+        <!-- End of content for main -->
+}

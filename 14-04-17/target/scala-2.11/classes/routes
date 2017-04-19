@@ -1,0 +1,86 @@
+# Routes
+# This file defines all application routes (Higher priority routes first)
+# ~~~~
+
+# An example controller showing a sample home page
+GET     /                      	controllers.HomeController.index(cat:Long ?= 0, filter?="")
+GET	    /index			        controllers.HomeController.index(cat:Long ?= 0, filter?="")
+
+GET     /products               controllers.HomeController.products(cat:Long ?= 0, filter?="")
+
+GET     /productDetails/:id     controllers.HomeController.productDetails(cat:Long ?= 0, filter?="", id: Long, sId: Long ?= 0)
+
+
+
+################
+# Customer
+################
+GET     /profile                        controllers.CustomerCtrl.profile(cat:Long ?= 0, filter?="")
+GET	    /profileEdit			        controllers.CustomerCtrl.profileEdit(cat:Long ?= 0, filter?="")
+GET	    /orderHistory			        controllers.CustomerCtrl.orderHistory(cat:Long ?= 0, filter?="")
+GET     /cancelOrder/:id                controllers.CustomerCtrl.cancelOrder(cat:Long ?= 0, filter?="", id: Long)			
+
+################
+# Shopping
+################
+GET     /showBasket                         controllers.ShoppingCtrl.showBasket(id: Long ?= 0, filter?="", sId: Long ?= 0)
+GET     /addToBasket/:id                    controllers.ShoppingCtrl.addToBasket(id: Long, cat:Long ?= 0, filter?="", sId: Long ?= 0)
+GET 	/removeOne/:id			    controllers.ShoppingCtrl.addToBasket(id: Long, cat:Long ?= 0, filter?="", sId: Long)
+GET     /addOne/:itemId                     controllers.ShoppingCtrl.addOne(itemId: Long, cat:Long ?= 0, filter?="", sId: Long ?= 0)
+GET     /removeOne/:itemId                  controllers.ShoppingCtrl.removeOne(itemId: Long, cat:Long ?= 0, filter?="", sId: Long ?= 0)
+GET     /emptyBasket                        controllers.ShoppingCtrl.emptyBasket(cat:Long ?= 0, filter?="", sId: Long ?= 0)
+GET     /placeOrder                         controllers.ShoppingCtrl.placeOrder(cat:Long ?= 0, filter?="")
+GET     /viewOrder/:id                      controllers.ShoppingCtrl.viewOrder(id: Long, cat:Long ?= 0, filter?="")
+GET	/payment			controllers.CustomerCtrl.payment(cat:Long ?= 0, filter?="")
+
+################
+# Admin Routes 
+################
+# products accepts a parameter default to 0 (Long)
+GET     /admin/products               controllers.AdminController.products(cat:Long ?=0L)
+
+# Request to load the add product form
+GET     /admin/addproduct                  controllers.AdminController.addProduct
+POST    /admin/addProductSubmit            controllers.AdminController.addProductSubmit
+
+# Delete a product by an id passed as a parameter
+GET    /admin/delProduct/:id               controllers.AdminController.deleteProduct(id: Long)
+
+# Update a product by id
+GET	    /admin/updateProduct/:id        controllers.AdminController.updateProduct(id: Long)
+POST	/admin/updateProductSubmit/:id  controllers.AdminController.updateProductSubmit(id:Long)
+
+GET     /admin/orders                         controllers.AdminController.orders
+GET     /admin/cancelOrder/:id                controllers.AdminController.cancelOrder(id: Long)
+GET     /admin/updateStatus:id                controllers.AdminController.updateStatus(id: Long)
+
+
+################
+# Login routes 
+################
+GET     /login                       controllers.LoginController.login(cat:Long ?= 0, filter?="")
+POST    /loginSubmit                 controllers.LoginController.loginSubmit(cat:Long ?= 0, filter?="")
+GET     /logout                      controllers.LoginController.logout(cat:Long ?= 0, filter?="")
+POST    /addUserSubmit               controllers.HomeController.addUserSubmit(cat:Long ?= 0, filter?="")
+
+
+################
+# Others
+################
+GET     /like:id                       controllers.HomeController.like(cat:Long ?= 0, filter?="", id: Long, s:String)
+POST    /comment:id                    controllers.CustomerCtrl.comment(cat:Long ?= 0, filter?="", id: Long)
+
+
+
+
+
+
+
+#####################################################################################
+# An example controller showing how to use dependency injection
+GET     /count                       controllers.CountController.count
+# An example controller showing how to write asynchronous code
+GET     /message                     controllers.AsyncController.message
+
+# Map static resources from the /public folder to the /assets URL path
+GET     /assets/*file                controllers.Assets.versioned(path="/public", file: Asset)
